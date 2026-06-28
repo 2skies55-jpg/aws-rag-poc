@@ -34,27 +34,35 @@ def health():
 
 @app.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
+
     file_path = os.path.join(UPLOAD_DIR, file.filename)
 
-    # Save uploaded PDF
+    # Save uploaded PDF locally
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
+
+    # Upload to S3
+    upload_file(
+        file_path=file_path,
+        object_name=file.filename
+    )
 
     # Extract text
     text = extract_text(file_path)
 
-    # Split into chunks
+    # Chunk text
     chunks = chunk_text(text)
 
-    # Store in ChromaDB
+    # Store embeddings
     store_chunks(file.filename, chunks)
 
     return {
         "message": "Upload successful",
         "filename": file.filename,
+        "stored_in_s3": True,
         "characters": len(text),
         "chunks": len(chunks),
-        "stored": True
+        "stored_in_vector_db": True
     }
 
 
