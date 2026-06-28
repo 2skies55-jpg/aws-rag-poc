@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+terraform.tfvars
+terraform.tfplan
+
+# AWS
+.aws/
+
+# VS Code
+.vscode/
+
+# Python env
+.env
+
+# Uploads
+backend/uploads/
+
+# macOS
+.DS_Store

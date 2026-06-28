@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+
+  rag-app:
+    build: .
+
+    container_name: rag-app
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - ./app/uploads:/app/uploads
+      - ./app/chroma_db:/app/chroma_db
+
+    restart: unless-stopped
